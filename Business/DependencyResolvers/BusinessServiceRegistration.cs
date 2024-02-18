@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessRules;
 using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -23,6 +24,7 @@ namespace Business.DependencyResolvers
             
             services.AddScoped<IBrandService,BrandManager>();
             services.AddScoped<IBrandDal, EfBrandDal>();
+            services.AddScoped<BrandBusinessRules>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly()); //
 

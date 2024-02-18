@@ -19,7 +19,7 @@ namespace Business.BusinessRules
         public void CheckIfBrandNameNotExists(string name)
         {
             bool isExists = _brandDal.GetList().Any(p => p.Name == name);
-            if (!isExists) 
+            if (isExists) 
             {
                 throw new Exception("Brand Already exists.");
             }
