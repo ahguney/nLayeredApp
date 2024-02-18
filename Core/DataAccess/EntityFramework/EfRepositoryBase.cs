@@ -12,11 +12,11 @@ namespace Core.DataAccess.EntityFramework
         where TEntity : Entity<TId>
         where TDbContext : DbContext
     {
-        private readonly TDbContext Context;
+        private readonly TDbContext _context;
 
         public EfRepositoryBase(TDbContext context)
         {
-            this.Context = context;
+            this._context = context;
         }
 
         public TEntity Add(TEntity entity)
@@ -24,9 +24,9 @@ namespace Core.DataAccess.EntityFramework
             entity.CreatedAt = DateTime.UtcNow;
             //Context.Entry(entity).State = EntityState.Added;
 
-                Context.Add(entity);
+                _context.Add(entity);
 
-            Context.SaveChanges();
+            _context.SaveChanges();
             return entity;
         }
 
@@ -37,21 +37,26 @@ namespace Core.DataAccess.EntityFramework
             //Context.Entry(entity).State = EntityState.Deleted;
 
             if (!isSoftDelete)
-                Context.Remove(entity);
+                _context.Remove(entity);
 
-            Context.SaveChanges();
+            _context.SaveChanges();
             return entity;
         }
 
-        public TEntity Get(TId id)
+        public TEntity? Get(Func<TEntity,bool>? predicate=null)
         {
-                
-            return Context.Set<TEntity>().FirstOrDefault(p=>p.Id.Equals(id));
+            return _context.Set<TEntity>().FirstOrDefault(predicate);
         }
 
-        public IList<TEntity> GetList()
+        public IList<TEntity> GetList(Func<TEntity, bool>? predicate=null)
         {
-            return Context.Set<TEntity>().ToList();
+            IQueryable<TEntity> query = _context.Set<TEntity>().AsQueryable();
+
+            if(predicate is not null)
+            {
+                query = _context.Set<TEntity>().Where(predicate).AsQueryable();
+            }
+            return query.ToList();  
         }
 
         public TEntity Update(TEntity entity)
@@ -59,9 +64,9 @@ namespace Core.DataAccess.EntityFramework
             entity.UpdatedAt = DateTime.UtcNow;
             //Context.Entry(entity).State = EntityState.Modified;
 
-                Context.Update(entity);
+                _context.Update(entity);
 
-            Context.SaveChanges();
+            _context.SaveChanges();
             return entity;
         }
     }

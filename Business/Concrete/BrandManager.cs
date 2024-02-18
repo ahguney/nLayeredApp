@@ -44,12 +44,12 @@ namespace Business.Concrete
 
         public Brand GetByID(int id)
         {
-            return _brandDal.Get(id);
+            return _brandDal.Get(p=>p.Id.Equals(id) && p.DeletedAt.HasValue == false);
         }
 
         public GetBrandListResponse GetList(GetBrandListRequest request)
         {
-            GetBrandListResponse response = _mapper.Map<GetBrandListResponse>(_brandDal.GetList());
+            GetBrandListResponse response = _mapper.Map<GetBrandListResponse>(_brandDal.GetList(p=>p.DeletedAt.HasValue == false));
             return response;
         }
 
