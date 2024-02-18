@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.BusinessRules;
 using Business.Request.Brand;
 using Business.Response.Brand;
 using DataAccess.Abstract;
@@ -17,14 +18,19 @@ namespace Business.Concrete
     {
         private readonly IBrandDal _brandDal;
         private readonly IMapper _mapper;
+        private readonly BrandBusinessRules _brandBusinessRules;
+        
 
-        public BrandManager(IBrandDal brandDal,IMapper mapper)
+        public BrandManager(IBrandDal brandDal,IMapper mapper, BrandBusinessRules brandBusinessRules)
         {
             _brandDal = brandDal;
             _mapper = mapper;
+            _brandBusinessRules = brandBusinessRules;
         }
         public AddBrandResponse Add(AddBrandRequest request)
         {
+            _brandBusinessRules.CheckIfBrandNameNotExists(request.Name);
+
             Brand brand = _mapper.Map<Brand>(request);
             Brand responseBrand = _brandDal.Add(brand);
             AddBrandResponse response = _mapper.Map<AddBrandResponse>(responseBrand);
