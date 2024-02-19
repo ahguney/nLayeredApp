@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,6 +13,7 @@ namespace DataAccess.Concrete.EntityFramework.Context
     public class NorthwindContext : DbContext
     {
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<User> Users { get; set; }
         public NorthwindContext(DbContextOptions options) : base(options)
         {
         }

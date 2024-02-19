@@ -22,9 +22,12 @@ namespace Business.DependencyResolvers
         public static IServiceCollection AddBusinessServiceRegistration(this IServiceCollection services, IConfiguration configuration)
         {
             
-            services.AddScoped<IBrandService,BrandManager>();
-            services.AddScoped<IBrandDal, EfBrandDal>();
-            services.AddScoped<BrandBusinessRules>();
+            services.AddScoped<IBrandService,BrandManager>()
+            .AddScoped<IBrandDal, EfBrandDal>()
+            .AddScoped<BrandBusinessRules>();
+
+            services.AddScoped<IUserService, UserManager>()
+            .AddScoped<IUserDal, EfUserDal>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly()); //
 
