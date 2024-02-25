@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessRules;
 using Business.Concrete;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Context;
@@ -28,6 +29,8 @@ namespace Business.DependencyResolvers
 
             services.AddScoped<IUserService, UserManager>()
             .AddScoped<IUserDal, EfUserDal>();
+
+            services.AddScoped<ITokenHelper, JwtTokenHelper>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly()); //
 

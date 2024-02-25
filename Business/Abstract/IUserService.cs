@@ -1,5 +1,6 @@
 ﻿using Business.Request.User;
 using Core.Utilities.Security.Hashing;
+using Core.Utilities.Security.JWT;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Business.Abstract
     public interface IUserService
     {
         public void Register(RegisterRequest registerRequest);
+        AccessToken Login(LoginRequest request);
     }
 }

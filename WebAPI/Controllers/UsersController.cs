@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Request.User;
+using Core.Utilities.Security.JWT;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,14 @@ namespace WebAPI.Controllers
         public ActionResult Register(RegisterRequest request)
         {
             _userService.Register(request);
-            return Created("","");
+            return Ok();
+        }
+        
+        [HttpPost("login")]
+        public AccessToken Login(LoginRequest request)
+        {
+
+            return _userService.Login(request);
         }
     }
 }
